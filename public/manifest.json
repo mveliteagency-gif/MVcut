@@ -1,0 +1,23 @@
+{
+  "name": "MVcut Pro - Editor de Vídeo",
+  "short_name": "MVcut",
+  "description": "Editor de vídeo completo estilo CapCut Pro para Desktop e Mobile sem restrições",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0a0b10",
+  "theme_color": "#00f2fe",
+  "icons": [
+    {
+      "src": "/logo.png",
+      "sizes": "1024x1024",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

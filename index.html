@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0d0e12" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="MVcut Pro" />
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" type="image/png" href="/logo.png" />
+  <link rel="apple-touch-icon" href="/logo.png" />
+  <title>MVcut Pro - Editor de Vídeo Profissional</title>
+
+  <!-- Google Fonts: Inter & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Outfit:wght@400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/src/styles/main.css" />
+  <link rel="stylesheet" href="/src/styles/home.css" />
+  <link rel="stylesheet" href="/src/styles/layout.css" />
+  <link rel="stylesheet" href="/src/styles/preview.css" />
+  <link rel="stylesheet" href="/src/styles/timeline.css" />
+  <link rel="stylesheet" href="/src/styles/sidebar.css" />
+  <link rel="stylesheet" href="/src/styles/inspector.css" />
+  <link rel="stylesheet" href="/src/styles/mobile.css" />
+</head>
+<body class="dark-theme">
+  <div id="app" class="app-container">
+    <!-- View 1: CapCut Authentic Start Screen Hub -->
+    <div id="home-view" class="home-view"></div>
+
+    <!-- View 2: Full Multi-Track Video Editor Studio -->
+    <div id="studio-view" class="studio-view" style="display: none;">
+      <!-- Top Header -->
+      <header id="header" class="app-header"></header>
+
+      <!-- Main Workspace (Desktop 3-Pane / Mobile Adaptive) -->
+      <main class="workspace-main">
+        <!-- Left Panel: Media, Text, Audio, Effects, Filters, Stickers -->
+        <aside id="sidebar-panel" class="sidebar-panel"></aside>
+
+        <!-- Center Panel: Video Preview Monitor -->
+        <section id="preview-panel" class="preview-panel"></section>
+
+        <!-- Right Panel: Inspector Properties for Selected Clip -->
+        <aside id="inspector-panel" class="inspector-panel"></aside>
+      </main>
+
+      <!-- Bottom Panel: Multi-track Timeline -->
+      <footer id="timeline-panel" class="timeline-panel"></footer>
+
+      <!-- Mobile Action Bar (Visible only on mobile / small screens) -->
+      <nav id="mobile-toolbar" class="mobile-toolbar"></nav>
+    </div>
+
+    <!-- Modals Container -->
+    <div id="modal-container" class="modal-container"></div>
+
+    <!-- Notification Toast System -->
+    <div id="toast-container" class="toast-container"></div>
+  </div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
