@@ -24,7 +24,8 @@ class StateStore {
         { id: 't-video', name: 'Faixa Principal', type: 'video', muted: false, locked: false, hidden: false },
         { id: 't-audio', name: 'Trilha Sonora', type: 'audio', muted: false, locked: false, hidden: false }
       ],
-      clips: []
+      clips: [],
+      canvasBackground: { type: 'color', value: '#050608' }
     };
 
     // Initialize with a cool starter project so user sees immediate results!
@@ -242,6 +243,13 @@ class StateStore {
   setAspectRatio(ratio) {
     this.state.aspectRatio = ratio;
     this.emit('aspectRatio:changed', ratio);
+    this.emit('render:needed');
+    this.saveSnapshot();
+  }
+
+  setCanvasBackground(bg) {
+    this.state.canvasBackground = bg;
+    this.emit('canvasBg:changed', bg);
     this.emit('render:needed');
     this.saveSnapshot();
   }

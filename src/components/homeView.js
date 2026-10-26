@@ -124,7 +124,7 @@ export function initHomeView(containerElement, { onEnterStudio }) {
         </div>
 
         <!-- Hero Actions (Novo Projeto, Upload de Mídia & Gravar) -->
-        <section class="hero-create-section" style="grid-template-columns: 1.4fr 1.2fr 1fr;">
+        <section class="hero-create-section">
           <!-- Card 1: Criar Novo Projeto -->
           <div class="card-new-project" id="btn-hero-new-project" title="Abrir projeto em branco">
             <div class="new-project-content">

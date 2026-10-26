@@ -1,49 +1,497 @@
+/* Complete 100% Mobile Optimization for MVcut Pro */
+
 @media (max-width: 880px) {
   :root {
-    --header-height: 48px;
-    --timeline-height: 220px;
+    --header-height: 46px;
+    --timeline-height: 210px;
   }
 
+  /* Main Container & Safe Areas */
   .app-container {
     height: 100vh;
     height: 100dvh;
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+    inset: 0;
   }
 
-  /* Switch Workspace from 3-column to vertical flex */
+  .studio-view {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  /* 1. APP HEADER MOBILE */
+  .app-header {
+    height: var(--header-height);
+    padding: 0 8px;
+    padding-top: env(safe-area-inset-top, 0px);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    flex-shrink: 0;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+    z-index: 100;
+  }
+
+  .header-left, .header-center, .header-right {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  #btn-back-home {
+    padding: 4px 6px !important;
+    gap: 2px !important;
+    font-size: 11px !important;
+    height: 32px;
+  }
+  #btn-back-home span {
+    display: none; /* Icon only */
+  }
+
+  .header-left .tool-divider {
+    display: none;
+  }
+
+  .brand-logo {
+    gap: 4px;
+    font-size: 14px;
+  }
+  .brand-logo img {
+    width: 22px !important;
+    height: 22px !important;
+  }
+  .brand-logo .badge-pro {
+    display: none;
+  }
+
+  /* Hide header import on mobile to prevent crowding (available in bottom bar and timeline) */
+  #btn-header-import {
+    display: none !important;
+  }
+
+  /* Center Controls: Aspect ratio & Undo/Redo */
+  .header-center {
+    gap: 4px;
+  }
+  .aspect-ratio-selector {
+    padding: 2px 4px;
+    font-size: 10px;
+    max-width: 68px;
+    height: 28px;
+  }
+  .header-center .tool-divider {
+    display: none;
+  }
+  #btn-undo, #btn-redo {
+    width: 28px;
+    height: 28px;
+    padding: 2px;
+  }
+  #btn-undo svg, #btn-redo svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* Right Controls: Export */
+  #btn-install-app {
+    display: none !important;
+  }
+  #btn-header-export {
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    gap: 4px;
+    height: 30px;
+    border-radius: var(--radius-full);
+  }
+  #btn-header-export svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  /* 2. WORKSPACE & PREVIEW MONITOR */
   .workspace-main {
     display: flex;
     flex-direction: column;
     flex: 1;
     min-height: 0;
+    overflow: hidden;
+    position: relative;
+    background: var(--bg-app);
   }
 
-  /* Hide Desktop Sidebar and Inspector from grid flow */
+  .preview-panel {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 4px 6px;
+    gap: 4px;
+    min-height: 140px;
+    overflow: hidden;
+    background: var(--bg-app);
+  }
+
+  .preview-top-bar {
+    height: 24px;
+    padding: 2px 8px;
+    font-size: 10px;
+    flex-shrink: 0;
+    background: rgba(20, 22, 31, 0.85);
+    border-radius: var(--radius-sm);
+  }
+  .preview-top-left span:first-child {
+    font-size: 11px;
+  }
+  #preview-ratio-badge {
+    font-size: 8px;
+    padding: 1px 4px;
+  }
+  #preview-res-label {
+    font-size: 9px;
+  }
+
+  .preview-viewport-container {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+    padding: 2px;
+    border-radius: var(--radius-md);
+  }
+
+  .canvas-wrapper {
+    max-width: 100%;
+    max-height: 100%;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.7);
+  }
+
+  .preview-bottom-bar {
+    height: 38px;
+    padding: 2px 8px;
+    gap: 6px;
+    flex-shrink: 0;
+    background: var(--bg-surface);
+    border-radius: var(--radius-sm);
+  }
+
+  .timecode-display {
+    font-size: 10px;
+    gap: 2px;
+  }
+
+  .playback-controls {
+    gap: 4px;
+  }
+
+  .btn-play-large {
+    width: 32px;
+    height: 32px;
+    box-shadow: 0 0 10px rgba(0, 242, 254, 0.4);
+  }
+  .btn-play-large svg {
+    width: 15px;
+    height: 15px;
+  }
+
+  #btn-skip-back, #btn-skip-fwd, #btn-fullscreen, #btn-toggle-loop {
+    width: 26px;
+    height: 26px;
+    padding: 2px;
+  }
+  #btn-skip-back svg, #btn-skip-fwd svg, #btn-fullscreen svg {
+    width: 13px;
+    height: 13px;
+  }
+
+  /* 3. MULTI-TRACK TIMELINE MOBILE */
+  .timeline-panel {
+    height: var(--timeline-height);
+    flex-shrink: 0;
+    border-top: 1px solid var(--border-subtle);
+    background: var(--bg-surface);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 50;
+  }
+
+  .timeline-toolbar {
+    height: 34px;
+    padding: 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    gap: 4px;
+  }
+  .timeline-toolbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .timeline-tools-left {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+  .timeline-tools-right {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+  .timeline-tools-right #zoom-slider {
+    display: none !important; /* Hide slider on mobile */
+  }
+
+  #btn-timeline-upload {
+    padding: 2px 6px !important;
+    font-size: 10px !important;
+    gap: 4px !important;
+    height: 26px;
+  }
+  #btn-timeline-upload svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  .timeline-toolbar .btn-icon {
+    width: 28px;
+    height: 28px;
+    padding: 4px;
+  }
+  .timeline-toolbar .btn-icon svg {
+    width: 14px;
+    height: 14px;
+  }
+  .timeline-toolbar .tool-divider {
+    height: 14px;
+    margin: 0 1px;
+  }
+
+  /* Timeline Body & Compact Headers */
+  .timeline-body {
+    flex: 1;
+    display: flex;
+    overflow: hidden;
+    position: relative;
+  }
+
+  .timeline-headers {
+    width: 36px !important;
+    flex-shrink: 0;
+    background: var(--bg-surface-elevated);
+    border-right: 1px solid var(--border-subtle);
+  }
+
+  .timeline-header-ruler-space {
+    height: 24px;
+    font-size: 8px;
+    padding: 0;
+    justify-content: center;
+    text-align: center;
+    color: var(--text-muted);
+  }
+
+  .track-header {
+    height: 42px;
+    padding: 0;
+    justify-content: center;
+    align-items: center;
+  }
+  .track-header-title {
+    gap: 0;
+    justify-content: center;
+  }
+  .track-header-title span {
+    display: none !important;
+  }
+  .track-header-title svg {
+    width: 16px;
+    height: 16px;
+  }
+  .track-header-actions {
+    display: none !important;
+  }
+
+  .timeline-tracks-viewport {
+    flex: 1;
+    overflow-x: auto;
+    overflow-y: hidden;
+    touch-action: pan-x;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .timeline-ruler {
+    height: 24px;
+  }
+  .ruler-time-label {
+    font-size: 9px;
+    top: 3px;
+  }
+
+  .timeline-lane {
+    height: 42px;
+  }
+
+  .timeline-clip {
+    height: 36px;
+    top: 3px;
+    border-radius: var(--radius-sm);
+  }
+  .clip-info {
+    font-size: 10px;
+    padding: 0 4px;
+  }
+
+  /* Generous Touch Trim Handles */
+  .trim-handle {
+    width: 22px !important;
+    touch-action: none;
+  }
+  .trim-handle::after {
+    width: 4px;
+    height: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 2px;
+  }
+  .playhead-handle {
+    width: 24px;
+    height: 26px;
+    touch-action: none;
+  }
+
+  /* 4. MOBILE BOTTOM TOOLBAR (Docked Navigation Bar) */
+  .mobile-toolbar {
+    height: calc(54px + env(safe-area-inset-bottom, 0px));
+    background: var(--bg-surface-elevated);
+    border-top: 1px solid var(--border-subtle);
+    display: flex !important;
+    align-items: center;
+    justify-content: flex-start !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    scrollbar-width: none !important;
+    -webkit-overflow-scrolling: touch;
+    padding: 0 8px env(safe-area-inset-bottom, 2px) !important;
+    gap: 4px !important;
+    flex-shrink: 0;
+    z-index: 900;
+  }
+  .mobile-toolbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  .mobile-tool-item {
+    flex: 0 0 auto !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2px;
+    background: transparent;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 10px;
+    font-weight: 500;
+    padding: 4px 8px;
+    cursor: pointer;
+    min-width: 52px;
+    height: 48px;
+    border-radius: var(--radius-sm);
+    transition: all var(--transition-fast);
+  }
+  .mobile-tool-item svg {
+    width: 19px;
+    height: 19px;
+  }
+  .mobile-tool-item:active, .mobile-tool-item.active {
+    color: var(--accent-cyan);
+    background: rgba(0, 242, 254, 0.08);
+  }
+
+  /* 5. MOBILE BOTTOM SHEETS (Sidebar Drawer & Inspector) */
   .sidebar-panel, .inspector-panel {
     position: fixed;
-    bottom: 56px;
+    bottom: calc(54px + env(safe-area-inset-bottom, 0px));
     left: 0;
     right: 0;
-    height: 60vh;
-    height: 60dvh;
+    height: 65vh;
+    height: 65dvh;
+    max-height: 520px;
     background: var(--bg-surface);
     border-top: 1px solid var(--border-default);
-    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
-    box-shadow: 0 -8px 30px rgba(0, 0, 0, 0.7);
+    border-radius: 18px 18px 0 0;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.85);
     z-index: 1000;
-    transform: translateY(110%);
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform: translateY(115%);
+    transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex !important;
+    overflow: hidden;
   }
   .sidebar-panel.mobile-open, .inspector-panel.mobile-open {
     transform: translateY(0);
   }
 
-  /* Overlay backdrop for mobile bottom sheets */
+  /* Mobile Sheet Close Bar & Drag Handle */
+  .mobile-sheet-close-bar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px 4px;
+    background: var(--bg-surface);
+    border-bottom: 1px solid var(--border-subtle);
+    flex-shrink: 0;
+  }
+  .sheet-drag-handle {
+    width: 40px;
+    height: 4px;
+    background: var(--border-default);
+    border-radius: 2px;
+    margin: 0 auto;
+    cursor: pointer;
+  }
+  .btn-sheet-close {
+    background: rgba(255, 255, 255, 0.08);
+    border: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 700;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+  }
+  .btn-sheet-close:active {
+    background: var(--accent-cyan);
+    color: #000;
+  }
+
+  /* Overlay Backdrop */
   .mobile-sheet-backdrop {
     position: fixed;
     inset: 0;
-    background: rgba(0, 0, 0, 0.6);
+    background: rgba(0, 0, 0, 0.65);
     backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
     z-index: 999;
     opacity: 0;
     pointer-events: none;
@@ -54,98 +502,152 @@
     pointer-events: auto;
   }
 
-  /* Preview occupies top part */
-  .preview-panel {
-    flex: 1;
-    padding: 6px;
-    min-height: 180px;
-  }
-  .preview-top-bar {
-    padding: 2px 8px;
-    font-size: 11px;
-  }
-  .preview-bottom-bar {
-    padding: 4px 8px;
+  /* SIDEBAR BOTTOM SHEET RESTRUCTURE (From Vertical to Horizontal Nav) */
+  .sidebar-panel {
+    flex-direction: column !important;
   }
 
-  /* Timeline occupies bottom part */
-  .timeline-panel {
-    height: var(--timeline-height);
+  .sidebar-nav {
+    width: 100% !important;
+    height: 44px !important;
+    flex-direction: row !important;
+    overflow-x: auto !important;
+    overflow-y: hidden !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-subtle);
+    padding: 4px 8px !important;
+    gap: 6px !important;
+    flex-shrink: 0;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+    background: var(--bg-surface-elevated);
   }
-  .timeline-headers {
-    width: 90px;
-  }
-  .track-header-title span {
+  .sidebar-nav::-webkit-scrollbar {
     display: none;
   }
-  .track-header {
-    padding: 0 4px;
-    justify-content: center;
+
+  .nav-tab-btn {
+    flex: 0 0 auto !important;
+    width: auto !important;
+    height: 34px !important;
+    padding: 0 12px !important;
+    flex-direction: row !important;
+    align-items: center !important;
+    gap: 6px !important;
+    border-radius: var(--radius-full) !important;
+    background: rgba(255, 255, 255, 0.05);
+    font-size: 11px !important;
+    font-weight: 600;
+  }
+  .nav-tab-btn svg {
+    width: 14px !important;
+    height: 14px !important;
+  }
+  .nav-tab-btn.active {
+    background: var(--accent-cyan) !important;
+    color: #000 !important;
+    font-weight: 700;
+  }
+  .nav-tab-btn.active svg {
+    color: #000 !important;
   }
 
-  .mobile-toolbar {
-    height: calc(56px + env(safe-area-inset-bottom, 0px));
-    background: var(--bg-surface-elevated);
-    border-top: 1px solid var(--border-subtle);
-    display: flex !important;
-    align-items: center;
-    justify-content: space-around;
-    padding: 0 4px env(safe-area-inset-bottom, 0px);
-    flex-shrink: 0;
-    z-index: 900;
-  }
-
-  .mobile-tool-item {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 3px;
-    background: transparent;
-    border: none;
-    color: var(--text-secondary);
-    font-size: 9px;
-    font-weight: 500;
-    padding: 6px 8px;
-    cursor: pointer;
-    min-width: 48px;
-    min-height: 48px;
-    transition: color var(--transition-fast);
-  }
-  .mobile-tool-item svg {
-    width: 20px;
-    height: 20px;
-  }
-  .mobile-tool-item:hover, .mobile-tool-item.active {
-    color: var(--accent-cyan);
-  }
-
-  /* Close bar handle for bottom sheets */
-  .sheet-drag-handle {
-    width: 36px;
-    height: 4px;
-    background: var(--border-default);
-    border-radius: 2px;
-    margin: 8px auto 4px;
-    flex-shrink: 0;
-  }
-
-  /* Touch optimizations for timeline */
-  .trim-handle {
-    width: 22px !important;
-  }
-  .trim-handle::after {
-    width: 4px;
-    height: 22px;
-    background: rgba(255, 255, 255, 0.85);
-  }
-  .playhead-handle {
-    width: 22px;
-    height: 26px;
-  }
-  .timeline-tracks-viewport {
-    touch-action: pan-x;
-    overscroll-behavior-x: contain;
+  .sidebar-content {
+    flex: 1 !important;
+    width: 100% !important;
+    overflow-y: auto !important;
     -webkit-overflow-scrolling: touch;
+    padding: 10px 12px;
+  }
+
+  .sidebar-category-pills {
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    gap: 6px;
+    padding-bottom: 6px;
+  }
+  .sidebar-category-pills::-webkit-scrollbar {
+    display: none;
+  }
+
+  .effects-grid, .filters-grid, .stickers-grid, .media-grid {
+    grid-template-columns: repeat(3, 1fr) !important;
+    gap: 8px !important;
+  }
+
+  /* INSPECTOR BOTTOM SHEET RESTRUCTURE */
+  .inspector-panel {
+    flex-direction: column !important;
+  }
+  .inspector-header {
+    padding: 8px 14px;
+    flex-shrink: 0;
+  }
+  .inspector-tabs {
+    overflow-x: auto;
+    scrollbar-width: none;
+    flex-wrap: nowrap;
+    height: 38px;
+    flex-shrink: 0;
+    background: var(--bg-surface-elevated);
+  }
+  .inspector-tabs::-webkit-scrollbar {
+    display: none;
+  }
+  .inspector-tab {
+    flex: 0 0 auto;
+    padding: 8px 12px;
+    font-size: 11px;
+    white-space: nowrap;
+  }
+  .inspector-content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding: 12px;
+  }
+
+  /* 6. MODALS ON MOBILE */
+  .modal-overlay {
+    padding: 8px;
+  }
+  .modal-content {
+    width: 100%;
+    max-width: 100%;
+    max-height: 85vh;
+    max-height: 85dvh;
+    border-radius: var(--radius-lg);
+  }
+  .modal-header {
+    padding: 14px 16px;
+  }
+  .modal-title {
+    font-size: 14px;
+  }
+  .modal-body {
+    padding: 14px 16px;
+    gap: 12px;
+  }
+  .modal-footer {
+    padding: 12px 16px;
+  }
+  .modal-footer .btn {
+    flex: 1;
+    font-size: 12px;
+  }
+
+  /* 7. TOAST NOTIFICATIONS ON MOBILE */
+  .toast-container {
+    bottom: calc(64px + env(safe-area-inset-bottom, 0px));
+    right: 12px;
+    left: 12px;
+    align-items: center;
+  }
+  .toast {
+    max-width: 100%;
+    width: 100%;
+    padding: 10px 14px;
+    font-size: 12px;
   }
 }

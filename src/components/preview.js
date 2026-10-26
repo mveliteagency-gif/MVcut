@@ -91,8 +91,9 @@ export function initPreview(previewElement) {
     const state = store.getState();
     const ratioConfig = aspectRatios.find(r => r.id === state.aspectRatio) || aspectRatios[0];
 
-    const cWidth = container.clientWidth - 24;
-    const cHeight = container.clientHeight - 24;
+    const pad = window.innerWidth < 880 ? 8 : 24;
+    const cWidth = Math.max(50, container.clientWidth - pad);
+    const cHeight = Math.max(50, container.clientHeight - pad);
 
     const targetRatio = ratioConfig.width / ratioConfig.height;
     let w, h;

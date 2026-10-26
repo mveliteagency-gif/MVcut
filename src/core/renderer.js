@@ -139,9 +139,31 @@ export class VideoRenderer {
     const state = store.getState();
     const t = state.currentTime;
 
-    // Solid dark canvas background
-    ctx.fillStyle = '#050608';
-    ctx.fillRect(0, 0, w, h);
+    // Solid or dynamic canvas background (CapCut & OpenCut Canvas Backgrounds)
+    const bg = state.canvasBackground || { type: 'color', value: '#050608' };
+    if (bg.type === 'gradient') {
+      const grad = ctx.createLinearGradient(0, 0, w, h);
+      grad.addColorStop(0, '#151827');
+      grad.addColorStop(0.5, '#0a0d18');
+      grad.addColorStop(1, '#050608');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, w, h);
+    } else if (bg.type === 'blur') {
+      const activeClipsNow = state.clips.filter(c => t >= c.startTime && t <= c.startTime + c.duration);
+      const mainVideo = activeClipsNow.find(c => c.type === 'video');
+      if (mainVideo && mainVideo.sourceElement) {
+        ctx.save();
+        ctx.filter = 'blur(35px) brightness(60%)';
+        ctx.drawImage(mainVideo.sourceElement, -w * 0.1, -h * 0.1, w * 1.2, h * 1.2);
+        ctx.restore();
+      } else {
+        ctx.fillStyle = '#050608';
+        ctx.fillRect(0, 0, w, h);
+      }
+    } else {
+      ctx.fillStyle = bg.value || '#050608';
+      ctx.fillRect(0, 0, w, h);
+    }
 
     const trackOrder = { 't-video': 1, 't-overlay': 2, 't-text': 3, 't-audio': 0 };
     const activeClips = state.clips

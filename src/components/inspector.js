@@ -54,6 +54,28 @@ export function initInspector(inspectorElement) {
           </div>
         </div>
 
+        <!-- Canvas Backgrounds (OpenCut & CapCut Style) -->
+        <div class="inspector-section">
+          <div class="inspector-section-title">Fundo do Canvas (Background)</div>
+          <p style="font-size: 11px; color: var(--text-muted); margin-bottom: 10px;">
+            Preencha bordas pretas quando o vídeo não cobrir todo o formato da tela.
+          </p>
+          <div class="grid-2-cols" style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+            <button class="btn ${(state.canvasBackground?.type === 'color' && state.canvasBackground?.value === '#050608') || !state.canvasBackground ? 'btn-primary' : 'btn-ghost'}" data-canvas-bg="black" style="font-size: 11px; padding: 8px 6px;">
+              ⬛ Preto Puro
+            </button>
+            <button class="btn ${state.canvasBackground?.type === 'gradient' ? 'btn-primary' : 'btn-ghost'}" data-canvas-bg="gradient" style="font-size: 11px; padding: 8px 6px;">
+              🌌 Gradiente Neon
+            </button>
+            <button class="btn ${state.canvasBackground?.type === 'blur' ? 'btn-primary' : 'btn-ghost'}" data-canvas-bg="blur" style="font-size: 11px; padding: 8px 6px;">
+              ✨ Desfoque do Vídeo
+            </button>
+            <button class="btn ${state.canvasBackground?.type === 'color' && state.canvasBackground?.value === '#ffffff' ? 'btn-primary' : 'btn-ghost'}" data-canvas-bg="white" style="font-size: 11px; padding: 8px 6px;">
+              ⬜ Branco Studio
+            </button>
+          </div>
+        </div>
+
         <div class="inspector-section">
           <div class="inspector-section-title">Atalhos de Teclado</div>
           <ul style="font-size: 11px; color: var(--text-secondary); line-height: 1.8; list-style: none;">
@@ -73,6 +95,22 @@ export function initInspector(inspectorElement) {
         store.state.projectTitle = e.target.value;
       });
     }
+
+    inspectorElement.querySelectorAll('[data-canvas-bg]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const bgType = btn.getAttribute('data-canvas-bg');
+        if (bgType === 'gradient') {
+          store.setCanvasBackground({ type: 'gradient' });
+        } else if (bgType === 'blur') {
+          store.setCanvasBackground({ type: 'blur' });
+        } else if (bgType === 'white') {
+          store.setCanvasBackground({ type: 'color', value: '#ffffff' });
+        } else {
+          store.setCanvasBackground({ type: 'color', value: '#050608' });
+        }
+        renderEmptyState();
+      });
+    });
   }
 
   function renderVisualInspector(clip) {

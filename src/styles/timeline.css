@@ -228,6 +228,28 @@
   color: #000;
 }
 
+/* Audio waveform peaks inside clips */
+.clip-waveform {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 18px;
+  display: flex;
+  align-items: flex-end;
+  gap: 1.5px;
+  padding: 0 6px 2px;
+  opacity: 0.35;
+  pointer-events: none;
+  overflow: hidden;
+}
+.waveform-bar {
+  flex: 1;
+  background: #ffffff;
+  border-radius: 1px;
+  min-height: 2px;
+}
+
 /* Clip Trim Handles */
 .trim-handle {
   position: absolute;

@@ -123,6 +123,19 @@ export function initTimeline(timelineElement) {
     if (clip.trackId === 't-audio') typeClass = 'clip-audio';
     else if (clip.trackId === 't-text') typeClass = 'clip-text';
 
+    let waveformHtml = '';
+    if (clip.type === 'video' || clip.type === 'audio') {
+      const barsCount = Math.max(8, Math.min(50, Math.floor(width / 7)));
+      let bars = '';
+      for (let i = 0; i < barsCount; i++) {
+        const hash = Math.sin(i * 12.9898 + (clip.id.length * 4.1414)) * 43758.5453;
+        const norm = (hash - Math.floor(hash));
+        const heightPct = Math.floor(norm * 75 + 15);
+        bars += `<span class="waveform-bar" style="height: ${heightPct}%;"></span>`;
+      }
+      waveformHtml = `<div class="clip-waveform">${bars}</div>`;
+    }
+
     return `
       <div class="timeline-clip ${typeClass} ${isSelected ? 'selected' : ''} ${isLocked ? 'locked' : ''}"
            id="${clip.id}"
@@ -132,6 +145,7 @@ export function initTimeline(timelineElement) {
         <div class="clip-info">
           <span>${clip.name || clip.properties?.text?.content || 'Clipe'}</span>
         </div>
+        ${waveformHtml}
         ${!isLocked ? '<div class="trim-handle trim-handle-right" data-trim="right" title="Ajustar Fim"></div>' : ''}
       </div>
     `;
