@@ -190,7 +190,9 @@ export const maskTypes = [
   { id: 'filmstrip', name: 'Cinema Bars (Letterbox)' },
   { id: 'circle', name: 'Círculo / Spotlight' },
   { id: 'rectangle', name: 'Retângulo Arredondado' },
-  { id: 'heart', name: 'Coração Romântico' }
+  { id: 'heart', name: 'Coração Romântico' },
+  { id: 'star', name: 'Estrela 5 Pontas (Pro)' },
+  { id: 'diamond', name: 'Diamante / Losango' }
 ];
 
 // Transitions Pro

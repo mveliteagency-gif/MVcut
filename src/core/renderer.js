@@ -177,7 +177,8 @@ export class VideoRenderer {
       ctx.save();
 
       const props = clip.properties || {};
-      const scale = props.scale ?? 1;
+      const scaleX = props.scaleX !== undefined ? props.scaleX : (props.scale ?? 1);
+      const scaleY = props.scaleY !== undefined ? props.scaleY : (props.scale ?? 1);
       const posX = (props.x || 0) + (w / 2);
       const posY = (props.y || 0) + (h / 2);
       const rot = ((props.rotation || 0) * Math.PI) / 180;
@@ -205,7 +206,7 @@ export class VideoRenderer {
       // Transform coordinate system
       ctx.translate(posX, posY);
       ctx.rotate(rot);
-      ctx.scale(scale, scale);
+      ctx.scale(scaleX, scaleY);
 
       // Render clip content
       if (clip.type === 'video' || clip.type === 'image') {
@@ -269,6 +270,38 @@ export class VideoRenderer {
       ctx.moveTo(cx, cy);
       ctx.bezierCurveTo(cx - d / 2, cy - d / 2, cx - d, cy + d / 3, cx, cy + d);
       ctx.bezierCurveTo(cx + d, cy + d / 3, cx + d / 2, cy - d / 2, cx, cy);
+    } else if (maskType === 'star') {
+      const cx = w / 2;
+      const cy = h / 2;
+      const spikes = 5;
+      const outerRadius = Math.min(w, h) * 0.35;
+      const innerRadius = outerRadius * 0.45;
+      let rot = (Math.PI / 2) * 3;
+      const step = Math.PI / spikes;
+
+      ctx.moveTo(cx, cy - outerRadius);
+      for (let i = 0; i < spikes; i++) {
+        let x = cx + Math.cos(rot) * outerRadius;
+        let y = cy + Math.sin(rot) * outerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+
+        x = cx + Math.cos(rot) * innerRadius;
+        y = cy + Math.sin(rot) * innerRadius;
+        ctx.lineTo(x, y);
+        rot += step;
+      }
+      ctx.closePath();
+    } else if (maskType === 'diamond') {
+      const cx = w / 2;
+      const cy = h / 2;
+      const rw = w * 0.32;
+      const rh = h * 0.32;
+      ctx.moveTo(cx, cy - rh);
+      ctx.lineTo(cx + rw, cy);
+      ctx.lineTo(cx, cy + rh);
+      ctx.lineTo(cx - rw, cy);
+      ctx.closePath();
     }
     ctx.clip();
   }
@@ -283,9 +316,13 @@ export class VideoRenderer {
     const strokeWidth = textConfig.strokeWidth || 0;
     const bgColor = textConfig.bgColor || 'transparent';
 
+    const align = textConfig.align || 'center';
     ctx.font = `bold ${size}px "${font}", Inter, sans-serif`;
-    ctx.textAlign = 'center';
+    ctx.textAlign = align;
     ctx.textBaseline = 'middle';
+    if ('letterSpacing' in ctx) {
+      ctx.letterSpacing = `${textConfig.spacing || 0}px`;
+    }
 
     const metrics = ctx.measureText(content);
     const textWidth = metrics.width;

@@ -140,12 +140,21 @@ export function initInspector(inspectorElement) {
           <!-- Transform Section -->
           <div class="inspector-section">
             <div class="inspector-section-title">Transformação & Escala</div>
-            <div class="form-group">
-              <div class="form-label">
-                <span>Escala (Zoom)</span>
-                <span class="form-val" id="val-scale">${(p.scale || 1).toFixed(2)}x</span>
+            <div class="grid-2-cols">
+              <div class="form-group">
+                <div class="form-label">
+                  <span>Escala X (Largura)</span>
+                  <span class="form-val" id="val-scale-x">${(p.scaleX !== undefined ? p.scaleX : (p.scale || 1)).toFixed(2)}x</span>
+                </div>
+                <input type="range" id="prop-scale-x" min="0.2" max="3.0" step="0.05" value="${p.scaleX !== undefined ? p.scaleX : (p.scale || 1)}" />
               </div>
-              <input type="range" id="prop-scale" min="0.2" max="3.0" step="0.05" value="${p.scale || 1}" />
+              <div class="form-group">
+                <div class="form-label">
+                  <span>Escala Y (Altura)</span>
+                  <span class="form-val" id="val-scale-y">${(p.scaleY !== undefined ? p.scaleY : (p.scale || 1)).toFixed(2)}x</span>
+                </div>
+                <input type="range" id="prop-scale-y" min="0.2" max="3.0" step="0.05" value="${p.scaleY !== undefined ? p.scaleY : (p.scale || 1)}" />
+              </div>
             </div>
 
             <div class="grid-2-cols">
@@ -173,6 +182,19 @@ export function initInspector(inspectorElement) {
                 <span class="form-val" id="val-opacity">${Math.round((p.opacity ?? 1) * 100)}%</span>
               </div>
               <input type="range" id="prop-opacity" min="0" max="1" step="0.05" value="${p.opacity ?? 1}" />
+            </div>
+
+            <div class="form-group">
+              <label class="form-label">Modo de Mesclagem (Blend Mode)</label>
+              <select id="prop-blend-mode" style="width: 100%;">
+                <option value="source-over" ${(p.blendMode || 'source-over') === 'source-over' ? 'selected' : ''}>Normal</option>
+                <option value="screen" ${p.blendMode === 'screen' ? 'selected' : ''}>Screen (Clarear)</option>
+                <option value="multiply" ${p.blendMode === 'multiply' ? 'selected' : ''}>Multiply (Multiplicar)</option>
+                <option value="overlay" ${p.blendMode === 'overlay' ? 'selected' : ''}>Overlay (Sobrepor)</option>
+                <option value="lighten" ${p.blendMode === 'lighten' ? 'selected' : ''}>Lighten</option>
+                <option value="color-dodge" ${p.blendMode === 'color-dodge' ? 'selected' : ''}>Color Dodge</option>
+                <option value="difference" ${p.blendMode === 'difference' ? 'selected' : ''}>Difference</option>
+              </select>
             </div>
           </div>
         ` : ''}
@@ -308,6 +330,23 @@ export function initInspector(inspectorElement) {
               <input type="range" id="prop-vol" min="0" max="2" step="0.05" value="${p.volume ?? 1}" />
             </div>
 
+            <div class="grid-2-cols" style="margin-top: 6px;">
+              <div class="form-group">
+                <div class="form-label">
+                  <span>Fade In (Entrada)</span>
+                  <span class="form-val" id="val-fade-in">${(p.fadeIn || 0).toFixed(1)}s</span>
+                </div>
+                <input type="range" id="prop-fade-in" min="0" max="5" step="0.5" value="${p.fadeIn || 0}" />
+              </div>
+              <div class="form-group">
+                <div class="form-label">
+                  <span>Fade Out (Saída)</span>
+                  <span class="form-val" id="val-fade-out">${(p.fadeOut || 0).toFixed(1)}s</span>
+                </div>
+                <input type="range" id="prop-fade-out" min="0" max="5" step="0.5" value="${p.fadeOut || 0}" />
+              </div>
+            </div>
+
             <div class="form-group" style="margin-top: 14px;">
               <label class="form-label">Efeitos de Mudança de Voz (Voice Changer Pro)</label>
               <select id="voice-effect-select" style="width: 100%;">
@@ -382,13 +421,32 @@ export function initInspector(inspectorElement) {
           </div>
 
           <div class="form-group">
-            <label class="form-label">Fonte</label>
+            <label class="form-label">Fonte Tipográfica</label>
             <select id="text-font" style="width: 100%;">
               <option value="Inter" ${t.font === 'Inter' ? 'selected' : ''}>Inter (Padrão)</option>
               <option value="Outfit" ${t.font === 'Outfit' ? 'selected' : ''}>Outfit (Impactante)</option>
+              <option value="Playfair Display" ${t.font === 'Playfair Display' ? 'selected' : ''}>Playfair Display (Elegante)</option>
               <option value="Impact" ${t.font === 'Impact' ? 'selected' : ''}>Impact (Memes/Viral)</option>
               <option value="JetBrains Mono" ${t.font === 'JetBrains Mono' ? 'selected' : ''}>JetBrains Mono (Código)</option>
+              <option value="Arial" ${t.font === 'Arial' ? 'selected' : ''}>Arial (Sistema)</option>
+              <option value="Times New Roman" ${t.font === 'Times New Roman' ? 'selected' : ''}>Times New Roman (Clássico)</option>
+              <option value="Georgia" ${t.font === 'Georgia' ? 'selected' : ''}>Georgia (Serifada)</option>
             </select>
+          </div>
+
+          <div class="grid-2-cols">
+            <div class="form-group">
+              <label class="form-label">Alinhamento</label>
+              <select id="text-align" style="width: 100%;">
+                <option value="center" ${(t.align || 'center') === 'center' ? 'selected' : ''}>Centro</option>
+                <option value="left" ${t.align === 'left' ? 'selected' : ''}>Esquerda</option>
+                <option value="right" ${t.align === 'right' ? 'selected' : ''}>Direita</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Espaçamento</label>
+              <input type="range" id="text-spacing" min="0" max="20" value="${t.spacing || 0}" />
+            </div>
           </div>
         </div>
       </div>
@@ -406,11 +464,23 @@ export function initInspector(inspectorElement) {
     });
 
     if (activeTab === 'basic') {
-      const scaleInput = inspectorElement.querySelector('#prop-scale');
-      scaleInput?.addEventListener('input', (e) => {
+      const scaleXInput = inspectorElement.querySelector('#prop-scale-x');
+      scaleXInput?.addEventListener('input', (e) => {
         const val = Number(e.target.value);
-        inspectorElement.querySelector('#val-scale').textContent = `${val.toFixed(2)}x`;
-        store.updateClip(clip.id, { properties: { scale: val } });
+        inspectorElement.querySelector('#val-scale-x').textContent = `${val.toFixed(2)}x`;
+        store.updateClip(clip.id, { properties: { scaleX: val, scale: val } });
+      });
+
+      const scaleYInput = inspectorElement.querySelector('#prop-scale-y');
+      scaleYInput?.addEventListener('input', (e) => {
+        const val = Number(e.target.value);
+        inspectorElement.querySelector('#val-scale-y').textContent = `${val.toFixed(2)}x`;
+        store.updateClip(clip.id, { properties: { scaleY: val } });
+      });
+
+      const blendSelect = inspectorElement.querySelector('#prop-blend-mode');
+      blendSelect?.addEventListener('change', (e) => {
+        store.updateClip(clip.id, { properties: { blendMode: e.target.value } });
       });
 
       const xInput = inspectorElement.querySelector('#prop-x');
@@ -525,6 +595,18 @@ export function initInspector(inspectorElement) {
         store.updateClip(clip.id, { properties: { volume: v } });
       });
 
+      inspectorElement.querySelector('#prop-fade-in')?.addEventListener('input', (e) => {
+        const v = Number(e.target.value);
+        inspectorElement.querySelector('#val-fade-in').textContent = `${v.toFixed(1)}s`;
+        store.updateClip(clip.id, { properties: { fadeIn: v } });
+      });
+
+      inspectorElement.querySelector('#prop-fade-out')?.addEventListener('input', (e) => {
+        const v = Number(e.target.value);
+        inspectorElement.querySelector('#val-fade-out').textContent = `${v.toFixed(1)}s`;
+        store.updateClip(clip.id, { properties: { fadeOut: v } });
+      });
+
       inspectorElement.querySelector('#voice-effect-select')?.addEventListener('change', (e) => {
         store.updateClip(clip.id, { properties: { voiceEffect: e.target.value } });
       });
@@ -568,6 +650,14 @@ export function initInspector(inspectorElement) {
 
     inspectorElement.querySelector('#text-font')?.addEventListener('change', (e) => {
       updateText('font', e.target.value);
+    });
+
+    inspectorElement.querySelector('#text-align')?.addEventListener('change', (e) => {
+      updateText('align', e.target.value);
+    });
+
+    inspectorElement.querySelector('#text-spacing')?.addEventListener('input', (e) => {
+      updateText('spacing', Number(e.target.value));
     });
   }
 
